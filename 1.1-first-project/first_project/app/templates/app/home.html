@@ -3,12 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Домашняя страница</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body>
-    <h1>Выберите раздел</h1>
-    {% for title, url in pages.items %}
-        <a href="{{ url }}">{{ title }}</a>
-        <br>
-    {% endfor %}
+    <div class="container">
+        <h1>Домашняя страница</h1>
+        <div class="wrapper">
+            <h2>Выберите раздел</h2>
+            <ul>
+                {% for title, url in pages.items %}
+                    <li>
+                        <a href="{{ url }}">{{ title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
