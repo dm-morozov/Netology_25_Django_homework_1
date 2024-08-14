@@ -62,3 +62,98 @@ pip install -r requirements.txt
 ```bash
 python manage.py runserver
 ```
+
+### Что было сделано
+
+1. **Создание словаря рецептов**:
+В коде был определен словарь `DATA`, который содержит рецепты и соответствующие им ингредиенты с количеством на одну порцию. В него были добавлены рецепты для омлета, макарон, бутерброда, пиццы, салата Цезарь, борща и блинов.
+
+```python
+
+DATA = {
+    'omlet': {
+        'яйца, шт': 2,
+        'молоко, л': 0.1,
+        'соль, ч.л.': 0.5,
+    },
+    'pasta': {
+        'макароны, г': 0.3,
+        'сыр, г': 0.05,
+    },
+    ...
+}
+
+```
+
+1. **Реализация логики обработки рецептов**:
+Было реализовано представление `recipe`, которое обрабатывает запросы, извлекает рецепт на основе URL и пересчитывает количество ингредиентов в зависимости от переданного параметра `servings`.
+
+```python
+
+def recipe(request, recipe):
+    recipe = recipe.lower()
+    try:
+        servings = int(request.GET.get('servings', 1))
+    except ValueError:
+        servings = 1
+
+    if recipe in DATA:
+        content = {
+            'name': recipe,
+            'servings': servings,
+            'recipe': {key: value * int(servings) for key, value in DATA[recipe].items()}
+        }
+    else:
+        content = {
+            'recipe': {},
+            'name_recipe': ', '.join([key for key in DATA.keys()])
+        }
+
+    return render(request, 'calculator/index.html', content)
+
+```
+
+1. **Создание шаблона**:
+Был создан HTML-шаблон `index.html`, который отображает ингредиенты для выбранного рецепта на указанное количество порций. Если рецепт не найден, выводится сообщение об ошибке и список доступных блюд.
+
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Рецепты</title>
+</head>
+<body>
+    <h3>Готовим {{ name.title }} на {{ servings }} порции</h3>
+
+    {% for ingredient, amount in recipe.items %}
+        <p>{{ ingredient }}: {{ amount }}</p>
+    {% empty %}
+        <p>Такого рецепта не знаю :(</p>
+        <p>Попробуйте другое блюдо. Есть следующие: {{ name_recipe.title }}</p>
+    {% endfor %}
+</body>
+</html>
+```
+
+1. **Регистрация маршрутов**:
+В файле `urls.py` были зарегистрированы маршруты для отображения рецептов.
+
+```python
+
+from django.urls import path
+from calculator.views import recipe
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('<recipe>/', recipe, name='recipe'),
+]
+```
+
+### Особенности реализации:
+
+- **Параметр `servings` необязателен**. Если он не передан, используется значение по умолчанию — 1 порция.
+- **Обработка ошибок**: В случае некорректного значения параметра `servings` оно автоматически устанавливается в 1.
+- **Гибкость системы**: Легко можно добавить новые рецепты в `DATA`, и они будут поддерживаться сервисом без дополнительных изменений в коде.
+
+Этот сервис-помощник позволяет быстро рассчитать количество ингредиентов для приготовления разных блюд на любое количество порций.
