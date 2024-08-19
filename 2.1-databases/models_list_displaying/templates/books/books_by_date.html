@@ -10,13 +10,22 @@
         <div class="row">
             {% for book in books %}
                 <div class="book col-md-4">
-                    <h2><a href="{{ book.pub_date|date:'Y-m-d' }}">{{book.name }}</a></h2>
+                    <h2>{{book.name }}</h2>
                     <p>Автор: {{ book.author }}</p>
-                    <p>Дата публикации: {{ book.pub_date }}</p>
+                    <p>Дата публикации: {{ book.pub_date|date:'Y-m-d' }}</p>
                 </div>
             {% empty %}
                 <p>Книги не найдены</p>
             {% endfor %}
+        </div>
+
+        <div class="pagination">
+            {% if previous_date %}
+                <a href="{% url 'books_by_date' previous_date.pub_date %}"> < {{ previous_date.pub_date|date:'Y-m-d' }}</a>
+            {% endif %}
+            {% if next_date %}
+                <a href="{% url 'books_by_date' next_date.pub_date %}">{{ next_date.pub_date|date:'Y-m-d' }} > </a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
