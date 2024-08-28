@@ -7,7 +7,8 @@ from datetime import datetime
 
 def books_view(request):
     books = Book.objects.all().order_by('pub_date')
-    print(vars(books))
+    # print(vars(books))
+
     template = 'books/books_list.html'
     context = {
         'books': books,
