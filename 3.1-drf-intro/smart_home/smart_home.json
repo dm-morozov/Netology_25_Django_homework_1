@@ -1,0 +1,98 @@
+[
+{
+  "model": "measurement.sensor",
+  "pk": 1,
+  "fields": {
+    "name": "ESP32",
+    "description": "Датчик на кухню"
+  }
+},
+{
+  "model": "measurement.sensor",
+  "pk": 2,
+  "fields": {
+    "name": "ESP100",
+    "description": "Датчик на балкон"
+  }
+},
+{
+  "model": "measurement.measurement",
+  "pk": 1,
+  "fields": {
+    "sensor": 1,
+    "temperature": 22.3,
+    "created_at": "2024-09-04T07:47:26.045Z",
+    "image": ""
+  }
+},
+{
+  "model": "measurement.measurement",
+  "pk": 2,
+  "fields": {
+    "sensor": 1,
+    "temperature": 22.5,
+    "created_at": "2024-09-04T07:47:45.732Z",
+    "image": ""
+  }
+},
+{
+  "model": "measurement.measurement",
+  "pk": 3,
+  "fields": {
+    "sensor": 2,
+    "temperature": 37.0,
+    "created_at": "2024-09-04T07:48:25.798Z",
+    "image": ""
+  }
+},
+{
+  "model": "measurement.measurement",
+  "pk": 4,
+  "fields": {
+    "sensor": 2,
+    "temperature": 33.4,
+    "created_at": "2024-09-04T07:48:40.014Z",
+    "image": ""
+  }
+},
+{
+  "model": "measurement.measurement",
+  "pk": 7,
+  "fields": {
+    "sensor": 1,
+    "temperature": 22.3,
+    "created_at": "2024-09-04T10:28:09.410Z",
+    "image": ""
+  }
+},
+{
+  "model": "measurement.measurement",
+  "pk": 8,
+  "fields": {
+    "sensor": 1,
+    "temperature": 22.3,
+    "created_at": "2024-09-04T10:29:13.287Z",
+    "image": ""
+  }
+},
+{
+  "model": "measurement.measurement",
+  "pk": 9,
+  "fields": {
+    "sensor": 2,
+    "temperature": 31.5,
+    "created_at": "2024-09-04T11:11:13.576Z",
+    "image": "measurements/cifrovoj-termometr-s-vynosnym-datchikov.jpg"
+  }
+},
+{
+  "model": "measurement.measurement",
+  "pk": 10,
+  "fields": {
+    "sensor": 2,
+    "temperature": 31.5,
+    "created_at": "2024-09-04T11:11:34.534Z",
+    "image": "measurements/cifrovoj-termometr-s-vynosnym-datchikov_i20b5Kk.jpg"
+  }
+}
+]
