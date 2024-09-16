@@ -1,6 +1,6 @@
 # примеры API-запросов
 
-@baseUrl = https://localhost:8000/api
+@baseUrl = http://localhost:8000/api
 
 # получение объявлений
 GET {{baseUrl}}/advertisements/
@@ -11,7 +11,7 @@ Content-Type: application/json
 # создание объявления
 POST {{baseUrl}}/advertisements/
 Content-Type: application/json
-Authorization: Token 902ef055a9ac93f18327f1f9c45ab059f1a62c7d
+Authorization: Token 451937686be91c38e77fb433bdf5fc0e972db1e2
 
 {
   "title": "Шкаф IKEA",
@@ -23,20 +23,65 @@ Authorization: Token 902ef055a9ac93f18327f1f9c45ab059f1a62c7d
 # попытка поменять объявление
 PATCH {{baseUrl}}/advertisements/1/
 Content-Type: application/json
-Authorization: Token 902ef055a9ac93f18327f1f9c45ab059f1a62c7d
+Authorization: Token 451937686be91c38e77fb433bdf5fc0e972db1e2
 
 {
-  "status": "CLOSED"
+  "status": "OPEN",
+  "first_name": "Дмитрий",
+  "last_name": "Морозов"
+}
+
+###
+
+# попытка поменять объявление
+PATCH {{baseUrl}}/advertisements/1/
+Content-Type: application/json
+Authorization: Token ba68feef7a3df326efcbf45483273f8ebd6c029c
+
+{
+  "status": "OPEN"
 }
 
 ###
 
 # фильтрация по создателю
-GET {{baseUrl}}/advertisements/?creator=3
+GET {{baseUrl}}/advertisements/?creator=1
 Content-Type: application/json
 
 ###
 
-# фильтрация по дате
-GET {{baseUrl}}/advertisements/?created_at_before=2020-10-01
+# фильтрация по создателю
+GET {{baseUrl}}/advertisements/?creator=1
 Content-Type: application/json
+Authorization: Token 451937686be91c38e77fb433bdf5fc0e972db1e2
+
+###
+
+# фильтрация по дате
+GET {{baseUrl}}/advertisements/?created_at_after=2020-10-01
+Content-Type: application/json
+
+###
+
+PATCH {{baseUrl}}/users/1/
+Content-Type: application/json
+Authorization: Token 451937686be91c38e77fb433bdf5fc0e972db1e2
+
+{
+  "first_name": "Дмитрий",
+  "last_name": "Морозов"
+}
+
+###
+
+POST {{baseUrl}}/advertisements/1/t_fav/
+Content-Type: application/json
+Authorization: Token ba68feef7a3df326efcbf45483273f8ebd6c029c
+
+###
+
+GET {{baseUrl}}/advertisements/favorites/
+Content-Type: application/json
+Authorization: Token ba68feef7a3df326efcbf45483273f8ebd6c029c
+
+###
