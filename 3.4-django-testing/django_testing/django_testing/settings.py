@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+MAX_STUDENTS_PER_COURSE = 20
+
 
 # Application definition
 
@@ -80,9 +82,11 @@ WSGI_APPLICATION = 'django_testing.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'netology_django_testing',
+        'NAME': 'work_with_database',
         'HOST': '127.0.0.1',
         'PORT': '5432',
+        'USER': 'postgres',
+        'PASSWORD': '20145',
     }
 }
 
