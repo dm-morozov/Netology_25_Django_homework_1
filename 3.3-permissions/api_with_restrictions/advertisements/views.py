@@ -1,32 +1,37 @@
+from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
-from django.contrib.auth.models import User
 
 from advertisements.filters import AdvertisementFilter
-from advertisements.models import Advertisement, FavoriteAdvertisement, AdvertisementStatusChoices
+from advertisements.models import (
+    Advertisement,
+    AdvertisementStatusChoices,
+    FavoriteAdvertisement,
+)
 from advertisements.permissions import IsOwnerOrReadOnly, IsOwnerOrReadOnlyUser
-from advertisements.serializers import AdvertisementSerializer, UserSerializer, FavoriteAdvertisementSerializer
-from rest_framework.decorators import action
-from rest_framework import status
+from advertisements.serializers import (
+    AdvertisementSerializer,
+    FavoriteAdvertisementSerializer,
+    UserSerializer,
+)
 
 
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
-
     # print(queryset.first().is_staff)
+
     def get_permissions(self):
         """Получение прав для действий."""
         if self.action in ["create", "update", "partial_update", "destroy"]:
             return [IsAuthenticated(), IsOwnerOrReadOnlyUser()]
         return [IsOwnerOrReadOnlyUser()]
-
-
-
 
 
 class AdvertisementViewSet(ModelViewSet):
@@ -73,9 +78,6 @@ class AdvertisementViewSet(ModelViewSet):
 
         return Response(serializer.data)
 
-        return Response(user)
-
-
     def get_queryset(self):
         """
         Фильтрация объявлений:
@@ -85,9 +87,7 @@ class AdvertisementViewSet(ModelViewSet):
         Незарегестрированные пользователи
         видят объявления со статусом OPEN
         """
-
         user = self.request.user
-
         # print(user.is_authenticated)
 
         if user.is_authenticated:
